@@ -25,8 +25,36 @@
             delete_yn = 0
        ORDER BY
             id DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
+    
+    
+    
+   	<select id="noticeFindByNumCnt" parameterType="com.choongang.concert.dto.board.PageNoticeDto" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			notice_board
+		WHERE
+			delete_yn = 0
+	</select>
+	
+		<!-- QnA 게시판 -->
 
+	<!--
+	<select id="qnaBoardFindAll" resultType="QnaList">
+		select category, title, crated_at, user_id, response_yn
+		from qna_board order by crated_at desc limit 1,15;
+	</select>-->
+	
+	
+<!-- Event 게시판 -->
 
+	<!--
+	<select id="eventBoardFindAll" resultType="EventList">
+		select category, title, writer_id, created_at, view_cnt
+		from event_board order by created_at desc limit 1,15;
+	</select>-->
+	
 </mapper>
 

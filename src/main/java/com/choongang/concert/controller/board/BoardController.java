@@ -1,13 +1,14 @@
 package com.choongang.concert.controller.board;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.choongang.concert.dto.board.PageNoticeDto;
+import com.choongang.concert.dto.board.PagingResponse;
 import com.choongang.concert.entity.board.Notice;
 import com.choongang.concert.service.board.BoardService;
 
@@ -61,11 +62,11 @@ public class BoardController {
 //	}
 
 	@GetMapping("/notice/list")
-	public String noticePost(Model model) {
-		List<Notice> noti = boardService.noticeBoard();
-		model.addAttribute("noti", noti);
-	log.info("noticeBoard : " + noti);
+	public String openPostList(@ModelAttribute("params") final PageNoticeDto params, Model model) {
+		PagingResponse<Notice> response = boardService.noticeBoard(params);
+		model.addAttribute("response", response);
 		return "board/notice_list";
+	}
 //	public String noticeList(@ModelAttribute("params") final PageNoticeDto params, Model model) {
 ////		List<Notice> noticeBoard = boardService.noticeBoard();
 //		List<Notice> noticeFindByNumPost = boardService.noticeFindByNumPost(params);
@@ -73,7 +74,7 @@ public class BoardController {
 ////		model.addAttribute("noticeBoard", noticeBoard);
 ////		/log.info("노티스 : " + noticeBoard);
 //		return "board/notice_list";
-	}
+
 
 	
 	
