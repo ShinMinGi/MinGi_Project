@@ -1,31 +1,43 @@
 package com.choongang.concert.controller.board;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import com.choongang.concert.dto.board.PageNoticeDto;
-import com.choongang.concert.dto.board.PagingResponse;
-import com.choongang.concert.entity.board.Notice;
+import com.choongang.concert.entity.board.NoticeRequest;
+import com.choongang.concert.entity.board.NoticeResponse;
 import com.choongang.concert.service.board.BoardService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@Controller
-// 요청을 board로 라우팅 
-@RequestMapping("/board")
-// 해당클래스의 필드에 대한 생성자가 자동으로 생성 중복코드를 작성을 피할 수 있다.
+
+@Controller 
 @RequiredArgsConstructor
 public class BoardController {
-
-	@Autowired
-	private BoardService boardService;
-
+	
+	
+	private final BoardService boardService;
+	
+	
+	// 게시글 작성 페이지 
+	@GetMapping("/notice/list")
+	public String noticePostWrite(Model model) {
+		List<NoticeRequest> noti = boardService.findAll();
+		model.addAttribute("noti", noti);
+		return "/board/notice_list";
+	}
+	
+	@GetMapping("/board/notice/{id}")
+	public String noticeDetail(@PathVariable Long id, Model model) { 
+		NoticeResponse notice = boardService.findPostById(id);
+		model.addAttribute("notice", notice);
+		return "/board/basic_detail";
+	}
+	
+	
 	@GetMapping("/admin/write")
 	public String adminWrite() {
 		return "board/admin_write";
@@ -61,19 +73,6 @@ public class BoardController {
 //		return "board/notice_list";
 //	}
 
-	@GetMapping("/notice/list")
-	public String openPostList(@ModelAttribute("params") final PageNoticeDto params, Model model) {
-		PagingResponse<Notice> response = boardService.noticeBoard(params);
-		model.addAttribute("response", response);
-		return "board/notice_list";
-	}
-//	public String noticeList(@ModelAttribute("params") final PageNoticeDto params, Model model) {
-////		List<Notice> noticeBoard = boardService.noticeBoard();
-//		List<Notice> noticeFindByNumPost = boardService.noticeFindByNumPost(params);
-//		model.addAttribute("noticeFindByNumPost", noticeFindByNumPost);
-////		model.addAttribute("noticeBoard", noticeBoard);
-////		/log.info("노티스 : " + noticeBoard);
-//		return "board/notice_list";
 
 
 	
@@ -84,11 +83,11 @@ public class BoardController {
 //		model.addAttribute("qnaListBoard", qnaListBoard);
 //		return "board/qna_list";
 //	}
-
+//
 //	@GetMapping("/qna/list")
-////	 @ModelAttribute QnaList qnaList :@ModelAttribute 어노테이션은 메서드의 파라미터로 사용되며,
-////	 요청 파라미터를 QnaList 객체에 자동으로 바인딩합니다.
-////	 즉, HTTP 요청의 파라미터를 QnaList 객체의 필드에 매핑합니다.
+//	 @ModelAttribute QnaList qnaList :@ModelAttribute 어노테이션은 메서드의 파라미터로 사용되며,
+//	 요청 파라미터를 QnaList 객체에 자동으로 바인딩합니다.
+//	 즉, HTTP 요청의 파라미터를 QnaList 객체의 필드에 매핑합니다.
 //	public String qnaList(@ModelAttribute QnaList qnaList, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 //		
 //		int count = boardService.findByQnaListCount(qnaList);

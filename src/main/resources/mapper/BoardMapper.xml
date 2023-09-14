@@ -3,42 +3,92 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.choongang.concert.repository.board.BoardMapper">
 
-	<!-- Notice 게시판 -->
-	<!--<select id="noticeBoardFindAll" resultType="Notice">
-	<select id="noticeBoardFindAll" resultType="Notice">
-		select id, category, title, crated_at , view_cnt 
-		from 
-		notice_board 
-		order by id desc
-		LIMIT #{offset}, #{recordSize}
-	</select>
-	-->
+	
+	<!-- tb_post 테이블 전체 컬럼 -->
+	<sql id="postColumns">
+		  id
+		, admin_id
+		, title 
+		, writer
+		, content
+		, view_cnt
+		, created_at
+		, updated_at
+		, delete_yn
+		, file_name 
+		, file_path
+		, category
+	</sql>
 	
 	
-
-	<select id="noticeFindAll" parameterType="com.choongang.concert.dto.board.PageNoticeDto" resultType="com.choongang.concert.entity.board.Notice">
-        SELECT
-        	*
-        FROM
-            notice_board
-        WHERE
-            delete_yn = 0
-       ORDER BY
-            id DESC
-        LIMIT #{pagination.limitStart}, #{recordSize}
-    </select>
-    
-    
-    
-   	<select id="noticeFindByNumCnt" parameterType="com.choongang.concert.dto.board.PageNoticeDto" resultType="int">
-		SELECT
-			COUNT(*)
-		FROM
-			notice_board
-		WHERE
-			delete_yn = 0
+	
+	
+	<select id="findAll" resultType="com.choongang.concert.entity.board.NoticeRequest">
+		select id, category, title, created_at, view_cnt
+		from notice_board order by id desc
 	</select>
 	
+    
+   <!-- 게시글 상세정보 조회 --> 
+   	<select id="findById" parameterType="long" resultType="com.choongang.concert.entity.board.NoticeResponse">
+   		SELECT 
+   			<include refid="postColumns" />
+   		FROM 
+   			notice_board
+   		WHERE 
+   			id = #{value}
+   	</select>
+    
+    
+ <!--   게시글 저장  
+   <insert id="save" parameterType="com.choongang.concert.entity.board.NoticeRequest">
+   		INSERT INTO notice_board (
+   			<include refid="postColumns" />
+   		) VALUES ( 
+   			  #{id}
+   			, #{adminId}
+   			, #{title}
+   			, #{writer}
+   			, #{content}
+   			, 0
+   			, NOW()
+   			, NOW()
+   			, 0
+   			, NULL
+   			, NULL
+   			, #{category}
+   		)
+   	</insert>-->
+   			
+<!--   	 
+   	
+   	 게시글 수정  
+   	<update id="update" parameterType="com.choongang.concert.entity.board.NoticeReqeust">
+   		UPDATE notice_board
+   		SET 
+   			 update_at = NOW()
+   		  ,  title = #{title} 
+   		  ,  writer = #{writer}
+   		  ,  content = #{content}
+   		  ,  category = #{category}
+   		WHERE
+   			id = #{id} 
+   	</update>
+   	
+   	 게시글 삭제  
+   	<delete id="deleteById" parameterType="long">
+   		UPDATE notice_board
+   		SET 
+   			 delete_yn = 1 
+   		WHERE 
+   			 id = #{id}
+   	</delete>-->
+   	
+  
+   		 	
+   	
+   
+   
 		<!-- QnA 게시판 -->
 
 	<!--

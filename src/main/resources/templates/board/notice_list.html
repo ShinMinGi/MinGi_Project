@@ -158,12 +158,12 @@
 
 
 					<tr th:each="notice : ${noti}">
-						<td th:text="${notice.id}">6</td>
-						<td th:text="${notice.category}">티켓오픈</td>
-						<td><a th:href="@{'/board/event/detail/' + ${notice.id}}"
-							th:text="${notice.title}">티켓을 오픈합니다</a></td>
-						<td th:text="${notice.cratedAt}">1238-04-18</td>
-						<td th:text="${notice.viewCnt}">16857</td>
+						<td th:text="${notice.id}"></td>
+						<td th:text="${notice.category}"></td>
+						<td><a th:href="@{'/board/notice/'+${notice.id}}"
+							th:text="${notice.title}"></a></td>
+						<td th:text="${notice.createdAt}"></td>
+						<td th:text="${notice.viewCnt}"></td>
 					</tr>
 
 
@@ -215,17 +215,15 @@
 					<!--                     </tr> -->
 
 				</tbody>
-			</table>
 
-			<hr>
 
-		
 
-			<!-- 숫자판 타임리프 -->
 
-			<!-- 페이지 매김을 래핑하는 컨테이너  -->
+				<!-- 숫자판 타임리프 -->
 
-			<div class="pagination">
+				<!-- 페이지 매김을 래핑하는 컨테이너  -->
+
+				<!-- 	<div class="pagination">
 				<ul>
 					<li th:if="${pagination.existPrevPage}" class="page-item"><a
 						th:href="@{'/board/notice?page=' + ${pagination.startPage - 1}}"
@@ -241,16 +239,37 @@
 					<li th:if="${pagination.existNextPage}" class="page-item"><a
 						th:href="@{'/board/notice?page=' + ${pagination.endPage + 1}}"
 						class="page-link">다음</a></li>
-				</ul>
-			</div>
+				</ul> -->
+
+			</table>
+			<hr>
+
+		</div>
+		<div class="container d-flex justify-content-end">
+			<span> <a href="http://localhost:8080/admin/write"
+				class="btn btn-outline-success btn-dark text-white">글쓰기</a>
+			</span>
+		</div>
+
+
+	</main>
 
 
 
 
 
+	<!-- Thymeleaf 코드  어드민으로 로그인된 사람만 글쓰기 버튼 누를 수 있게 구현 -->
+	<!-- <a th:if="${#request.isUserInRole('ROLE_ADMIN')}"
+			   href="http://127.0.0.1:5500/board/qnawriting.html"
+			   class="btn btn-outline-success float-end btn-dark text-white">글쓰기</a>
+			 -->
 
-			<!-- 검색바 -->
-			<div class="container">
+
+
+
+
+	<!-- 검색바 -->
+	<!-- <div class="container">
 				<div class="row">
 					<div class="col-md-15 mt-2 mb-5">
 						<div class="box-body ml-4">
@@ -267,8 +286,8 @@
 						</div>
 					</div>
 				</div>
-			</div>
-	</main>
+			</div> -->
+
 
 	<footer class="bg-white mt-auto py-3 text-light-emphasis border-top">
 		<div class="container-fluid row">
