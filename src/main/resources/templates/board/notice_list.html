@@ -160,9 +160,8 @@
 					<tr th:each="notice : ${noti}">
 						<td th:text="${notice.id}"></td>
 						<td th:text="${notice.category}"></td>
-						<td><a th:href="@{'/board/notice/'+${notice.id}}"
-							th:text="${notice.title}"></a></td>
-						<td th:text="${notice.createdAt}"></td>
+						<td><a th:href="@{'/notice/' + ${notice.id}}" th:text="${notice.title}"></a></td>
+						<td th:text="${#temporals.format(notice.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
 						<td th:text="${notice.viewCnt}"></td>
 					</tr>
 

@@ -40,13 +40,12 @@
    	</select>
     
     
- <!--   게시글 저장  
+ <!--   게시글 저장  -->
    <insert id="save" parameterType="com.choongang.concert.entity.board.NoticeRequest">
    		INSERT INTO notice_board (
-   			<include refid="postColumns" />
+   			admin_id,title,writer,content,view_cnt,created_at ,updated_at,delete_yn,category
    		) VALUES ( 
-   			  #{id}
-   			, #{adminId}
+   			  #{adminId}
    			, #{title}
    			, #{writer}
    			, #{content}
@@ -54,11 +53,20 @@
    			, NOW()
    			, NOW()
    			, 0
-   			, NULL
-   			, NULL
    			, #{category}
    		)
-   	</insert>-->
+   	</insert>
+   	
+   	
+  <!-- viewCnt -->
+  <update id="updateViewCnt">
+  	UPDATE notice_board
+  		SET view_cnt = view_cnt + 1
+  		where id = #{id}
+  </update>
+  
+  
+  
    			
 <!--   	 
    	

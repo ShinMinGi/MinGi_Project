@@ -42,6 +42,11 @@ public interface BoardMapper {
 	 */
 	void deleteById(Long id);
 	
+	
+	// viewCnt 자동 +1
+	void updateViewCnt(Long id);
+	
+	
 	/*
 	 * 게시글 리스트 조회
 	 * @return 게시글 리스트  

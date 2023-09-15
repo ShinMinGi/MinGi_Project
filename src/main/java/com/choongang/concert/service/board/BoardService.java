@@ -71,8 +71,17 @@ public class BoardService {
 	}
 	
 	
-	
-
+	// 조회수 업그레이드 
+	public NoticeResponse findViewPostById(Long id) {
+		// 게시물 조회 
+		NoticeResponse nt = boardMapper.findById(id); 
+		
+		// 조회수 증가 
+		boardMapper.updateViewCnt(id);
+		
+		return nt;
+		
+	}
 
 	
 //--------------------------------------------------------------------------------------------------------------------

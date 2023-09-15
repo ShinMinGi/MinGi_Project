@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.choongang.concert.entity.board.NoticeRequest;
 import com.choongang.concert.entity.board.NoticeResponse;
@@ -18,35 +19,67 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardController {
 	
-	
+
 	private final BoardService boardService;
 	
 	
 	// 게시글 작성 페이지 
-	@GetMapping("/notice/list")
+	@GetMapping("/notice")
 	public String noticePostWrite(Model model) {
 		List<NoticeRequest> noti = boardService.findAll();
 		model.addAttribute("noti", noti);
 		return "/board/notice_list";
-	}
+	}		//완료 
 	
-	@GetMapping("/board/notice/{id}")
-	public String noticeDetail(@PathVariable Long id, Model model) { 
-		NoticeResponse notice = boardService.findPostById(id);
-		model.addAttribute("notice", notice);
+	// 게시글 상세 페이지 
+	@GetMapping("/notice/{id}")
+	public String basicDetail(@PathVariable final Long id, Model model) {
+		NoticeResponse noticeView = boardService.findViewPostById(id);
+		NoticeResponse nr = boardService.findPostById(id);
+		model.addAttribute("nr", nr);
+		model.addAttribute("noticeView", noticeView);
 		return "/board/basic_detail";
-	}
+	}		// 완료 
+
 	
 	
+	
+	
+	
+	
+	
+	
+//	@GetMapping("/basic/detail/{id}")
+//	public String noticeDetail(@PathVariable Long id, Model model) { 
+//		NoticeResponse notice = boardService.findPostById(id);
+//		model.addAttribute("notice", notice);
+//		return "/board/basic_detail";
+//	}
+//	
+	
+	
+	/*
+	 * // 어드민 글쓰기 페이지
+	 * 
+	 * @GetMapping("/admin/write") public String adminWrite(@RequestParam(value =
+	 * "id", required = false) final Long id, Model model) { if (id != null) {
+	 * NoticeResponse adminNr = boardService.savePost(id);
+	 * model.addAttribute(adminNr); } return "board/admin_write"; } // 신규 게시글 생성
+	 * 
+	 * @PostMapping("/notice") public String savePost(final NoticeRequest params) {
+	 * boardService.savePost(params); return "/notice"; }
+	 */
+	
+	 // 게시판 글쓰기 기능 
 	@GetMapping("/admin/write")
-	public String adminWrite() {
+	public String adminWrite() throws Exception {
 		return "board/admin_write";
 	}
+	
+	// 글쓰기 등록 
+	
+	
 
-	@GetMapping("/basic/detail")
-	public String basicDetail() {
-		return "board/basic_detail";
-	}
 
 	@GetMapping("/event/card")
 	public String eventCard() {
@@ -105,7 +138,7 @@ public class BoardController {
 //		return "board/qna_list";
 //	}
 
-	@GetMapping("/user/write?{id}")
+	@GetMapping("/user/write")
 	public String userwrite() {
 		return "/board/user_write";
 	}
