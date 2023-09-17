@@ -43,10 +43,10 @@ public class BoardController {
 
 	@GetMapping("/notice/detail/{id}")
 	public String getNoticeDetailView(@PathVariable Long id, Model model) {
-
 		NoticeDto noticeDetail = boardService.findNoticeDetail(id);
+		NoticeDto noticeView = boardService.findViewPostById(id);
 		model.addAttribute("notice", noticeDetail);
-
+		model.addAttribute("noticeView", noticeView);
 		return "board/basic_detail";
 	}
 
@@ -99,6 +99,6 @@ public class BoardController {
 		return "redirect:/notice";
 	}
 
-
+	
 
 }

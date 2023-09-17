@@ -44,4 +44,21 @@ public class BoardService {
     public int deletePost(Long id) {
         return boardMapper.deletePost(id);
     }
+    
+	// 조회수 업그레이드 
+	public NoticeDto findViewPostById(Long id) {
+		// 게시물 조회 
+		NoticeDto nt = boardMapper.findById(id); 
+		// 조회수 증가 
+		boardMapper.updateViewCnt(id);
+		return nt;	
+	}
+	
+	
+	
+// qna Board
+	
+	
+	
+	
 }

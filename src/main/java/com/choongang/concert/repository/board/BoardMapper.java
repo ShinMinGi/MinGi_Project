@@ -23,5 +23,5 @@ public interface BoardMapper {
 
     int deletePost(Long id);
 
-
+    void updateViewCnt(Long id);
 }
